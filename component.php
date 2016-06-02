@@ -37,7 +37,20 @@ class ForgeMailchimpForm extends Component {
 
     public function content() {
         return App::instance()->render(DOC_ROOT."modules/forge-mailchimp/", "form", array(
+            'before' => $this->getField($this->prefix."lead_text"),
+            'form' => $this->form()
         ));
+    }
+
+    public function form() {
+        $form = '';
+        $form.= Fields::text(array(
+            'key' => 'forge-mailchimp-email',
+            'label' => $this->getField($this->prefix."input_label"),
+            'hint' => ''
+        ));
+        $form.= Fields::button($this->getField($this->prefix."button_text"));
+        return $form;
     }
 
     public function customBuilderContent() {
