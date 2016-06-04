@@ -30,7 +30,7 @@ class MailchimpAPI {
         return 'https://' . $this->dataCenter() . '.api.mailchimp.com/3.0/';
     }
 
-    public function addRecipient($data, $listId=false, $doubleopt) {
+    public function addRecipient($data, $listId=false, $doubleopt=true) {
         if(!$listId) {
             echo 'Give me a list to put that recipient...';
             return;
@@ -56,11 +56,16 @@ class MailchimpAPI {
                 $name
             )
         );
-        echo $this->get($this->baseURL().'lists/' . $listId . '/members/' . $memberId, $json, 'PUT');
+        return $this->get($this->baseURL().'lists/' . $listId . '/members/' . $memberId, $json, 'PUT');
     }
 
     public function getLists() {
-        echo $this->get($this->baseURL().'lists/');
+        $lists = json_decode($this->get($this->baseURL().'lists/'));
+        $l = array();
+        foreach($lists->lists as $list) {
+            $l[$list->id] = $list->name;
+        }
+        return $l;
     }
 
     public function get($url, $json=false, $request='GET') {
