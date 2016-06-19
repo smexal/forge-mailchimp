@@ -29,7 +29,6 @@ class ForgeMailchimp extends Module {
     }
 
     public function apiAdapter($query) {
-
         // add recipient to the list.
 
         if($query == 'add') {

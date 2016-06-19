@@ -5,16 +5,6 @@
  * -> http://stackoverflow.com/questions/30481979/adding-subscribers-to-a-list-using-mailchimps-api-v3
  **/
 
-/**
-MailchimpAPI::getLists();
-$listId = '62e8a8f09b';
-MailchimpAPI::addRecipient(array(
-    'email'     => 'jon.doe@gmail.com',
-    'firstname' => 'Jon',
-    'lastname' => 'Doe'
-), $listId, false);
-*/
-//"ac3587fe8de6065ef19e7f32410e3015-us13"
 class MailchimpAPI {
     private $apiKey = null;
 
@@ -60,10 +50,15 @@ class MailchimpAPI {
     }
 
     public function getLists() {
+        if(! $this->apiKey) {
+            return array();
+        }
         $lists = json_decode($this->get($this->baseURL().'lists/'));
         $l = array();
-        foreach($lists->lists as $list) {
-            $l[$list->id] = $list->name;
+        if(is_array($lists)) {
+            foreach($lists->lists as $list) {
+                $l[$list->id] = $list->name;
+            }
         }
         return $l;
     }
