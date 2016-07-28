@@ -55,7 +55,7 @@ class MailchimpAPI {
         }
         $lists = json_decode($this->get($this->baseURL().'lists/'));
         $l = array();
-        if(is_array($lists)) {
+        if(is_array($lists) || is_object($lists)) {
             foreach($lists->lists as $list) {
                 $l[$list->id] = $list->name;
             }

@@ -6,7 +6,7 @@ class ForgeMailchimp extends Module {
     private $settings_field_api_key = 'forge_mailchimp_api_key';
 
     public function setup() {
-        $this->version = '1.0';
+        $this->version = '1.0.0';
         $this->settings = Settings::instance();
         $this->id = "forge-mailchimp";
         $this->name = i('Mailchimp for Forge', 'forge-mailchimp-form');
@@ -20,7 +20,7 @@ class ForgeMailchimp extends Module {
 
         $this->registerFields();
 
-        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."scripts/externals/jquery.js", true);
+        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."scripts/externals/jquery.js", true, 0);
         App::instance()->tm->theme->addScript(CORE_WWW_ROOT."scripts/helpers.js", true);
         App::instance()->tm->theme->addScript(CORE_WWW_ROOT."scripts/forms.js", true);
         App::instance()->tm->theme->addScript($this->url()."assets/scripts.js", true);
