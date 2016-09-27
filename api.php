@@ -54,6 +54,12 @@ class MailchimpAPI {
             return array();
         }
         $lists = json_decode($this->get($this->baseURL().'lists/'));
+        if(is_object($lists)) {
+            // invalid api key
+            if(property_exists($lists, "status") && $lists->status == 401) {
+                return array();
+            }
+        }
         $l = array();
         if(is_array($lists) || is_object($lists)) {
             foreach($lists->lists as $list) {
