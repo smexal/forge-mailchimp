@@ -5,7 +5,6 @@ class ForgeMailchimpForm extends Component {
     private $prefix = 'forge_mailchimp_';
 
     public function prefs() {
-        $mailchimp = new MailchimpAPI(Settings::get('forge_mailchimp_api_key'));
         $this->settings = array(
             array(
                 "label" => i('Lead text', 'forge-mailchimp-form'),
@@ -30,8 +29,11 @@ class ForgeMailchimpForm extends Component {
                 "hint" => i('If you can\'t see a list, check you api key in the global settings.', 'forge-mailchimp-form') ,
                 "key" => $this->prefix."mailchimp_list",
                 "type" => "select",
-                "values" => array_merge(array('0' => i('Choose one', 'forge-mailchimp-form')), $mailchimp->getLists())
+                "callable" => true,
+                "values" => array($this, 'getMailchimpListOptionValues')
             )
+            // TODO: make a value "callable"
+            // make a static calable method to be called, when "values" is required for performance.
         );
         return array(
             'name' => i('Mailchimp Form'),
@@ -41,6 +43,11 @@ class ForgeMailchimpForm extends Component {
             'level' => 'inner',
             'container' => false
         );
+    }
+
+    public function getMailchimpListOptionValues() {
+        $mailchimp = new MailchimpAPI(Settings::get('forge_mailchimp_api_key'));
+        return array_merge(array('0' => i('Choose one', 'forge-mailchimp-form')), $mailchimp->getLists());
     }
 
     public function content() {
