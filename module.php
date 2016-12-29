@@ -1,6 +1,10 @@
-<?
+<?php
 
-class ForgeMailchimp extends Module {
+namespace Forge\Modules\ForgeMailchimp;
+
+use \Forge\Core\Abstracts as Abstracts;
+
+class ForgeMailchimp extends Abstracts\Module {
     private $settings = null;
 
     private $settings_field_api_key = 'forge_mailchimp_api_key';
