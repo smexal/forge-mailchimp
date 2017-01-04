@@ -1,10 +1,11 @@
-<?php 
+<?php
+
+namespace Forge\Modules\ForgeMailchimp;
 
 /**
  * Helping Ressources
  * -> http://stackoverflow.com/questions/30481979/adding-subscribers-to-a-list-using-mailchimps-api-v3
  **/
-
 class MailchimpAPI {
     private $apiKey = null;
 
@@ -42,7 +43,7 @@ class MailchimpAPI {
         $json = json_encode(array_merge(array(
                 'email_address' => $data['email'],
                 'status'        => $doubleopt ? "pending" : "subscribed",
-                ), 
+                ),
                 $name
             )
         );

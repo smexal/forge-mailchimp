@@ -2,9 +2,15 @@
 
 namespace Forge\Modules\ForgeMailchimp;
 
-use \Forge\Core\Abstracts as Abstracts;
+use \Forge\Core\Abstracts\Module;
+use \Forge\Core\App\API;
+use \Forge\Core\App\App;
+use \Forge\Core\Classes\Fields;
+use \Forge\Core\Classes\Settings;
 
-class ForgeMailchimp extends Abstracts\Module {
+use function \Forge\Core\Classes\i;
+
+class ForgeMailchimp extends Module {
     private $settings = null;
 
     private $settings_field_api_key = 'forge_mailchimp_api_key';
@@ -35,7 +41,7 @@ class ForgeMailchimp extends Abstracts\Module {
     public function apiAdapter($query) {
         // add recipient to the list.
 
-        if($query == 'add') {
+        if ($query == 'add') {
             $email = $_POST['forge-mailchimp-email'];
             $component = App::instance()->com->getComponentById($_POST['componentId']);
             $apiKey = Settings::get('forge_mailchimp_api_key');

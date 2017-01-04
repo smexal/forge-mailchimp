@@ -1,5 +1,15 @@
 <?php
 
+namespace Forge\Modules\ForgeMailchimp;
+
+use \Forge\Core\Abstracts\Component;
+use \Forge\Core\App\App;
+use \Forge\Core\Classes\Settings;
+use \Forge\Core\Classes\Fields;
+use \Forge\Core\Classes\Utils;
+
+use function \Forge\Core\Classes\i;
+
 class ForgeMailchimpForm extends Component {
     public $settings = array();
     private $prefix = 'forge_mailchimp_';
