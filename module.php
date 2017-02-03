@@ -19,7 +19,7 @@ class ForgeMailchimp extends Module {
         $this->version = '1.0.0';
         $this->settings = Settings::instance();
         $this->id = "forge-mailchimp";
-        $this->name = i('Mailchimp for Forge', 'forge-mailchimp-form');
+        $this->name = i('Mailchimp Subscriptions', 'forge-mailchimp-form');
         $this->description = i('Module to add newsletter Subscription form.', 'forge-mailchimp-form');
         $this->image = $this->url().'assets/images/mailchimp-logo.png';
     }
