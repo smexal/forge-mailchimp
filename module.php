@@ -8,7 +8,7 @@ use \Forge\Core\App\App;
 use \Forge\Core\Classes\Fields;
 use \Forge\Core\Classes\Settings;
 
-use function \Forge\Core\Classes\i;
+
 
 class ForgeMailchimp extends Module {
     private $settings = null;
@@ -25,14 +25,12 @@ class ForgeMailchimp extends Module {
     }
 
     public function start() {
-        require_once($this->directory()."component.php");
-        require_once($this->directory()."api.php");
 
         $this->registerFields();
 
-        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."scripts/externals/jquery.js", true, 0);
-        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."scripts/helpers.js", true);
-        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."scripts/forms.js", true);
+        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."ressources/scripts/externals/jquery.js", true, 0);
+        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."ressources/scripts/helpers.js", true);
+        App::instance()->tm->theme->addScript(CORE_WWW_ROOT."ressources/scripts/forms.js", true);
         App::instance()->tm->theme->addScript($this->url()."assets/scripts.js", true);
 
         API::instance()->register('forge-mailchimp', array($this, 'apiAdapter'));
