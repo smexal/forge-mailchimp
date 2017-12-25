@@ -14,6 +14,7 @@ class ForgeMailchimp extends Module {
     private $settings = null;
 
     private $settings_field_api_key = 'forge_mailchimp_api_key';
+    private $settings_field_default_list = 'forge_mailchimp_default_list';
 
     public function setup() {
         $this->version = '1.0.0';
@@ -42,6 +43,11 @@ class ForgeMailchimp extends Module {
         if ($query == 'add') {
             $email = $_POST['forge-mailchimp-email'];
             $component = App::instance()->com->getComponentById($_POST['componentId']);
+            if(is_null($component)) {
+                $list = Settings::get('forge_mailchimp_default_list');
+            } else {
+                $list = $component->getField('forge_mailchimp_mailchimp_list');
+            }
             $apiKey = Settings::get('forge_mailchimp_api_key');
 
             $mailchimp = new MailchimpAPI($apiKey);
@@ -49,7 +55,7 @@ class ForgeMailchimp extends Module {
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $mailchimp->addRecipient(array(
                     'email' => $email
-                ), $component->getField('forge_mailchimp_mailchimp_list'));
+                ), $list);
                 return json_encode(array(
                     'type' => 'success',
                     'message' => i('Subscription successful.', 'forge-mailchimp-form')
@@ -70,6 +76,22 @@ class ForgeMailchimp extends Module {
             'label' => i('Insert your Mailchimp API key', 'forge-mailchimp-form'),
             'hint' => i('Check official Mailchimp for more information: http://goo.gl/zaUhCY', 'forge-mailchimp-form')
         ), Settings::get($this->settings_field_api_key)), $this->settings_field_api_key, 'right');
+
+        if(Settings::get($this->settings_field_api_key)) {
+            $this->settings->registerField(
+                Fields::select(array(
+                'key' => $this->settings_field_default_list,
+                'label' => i('Default Mailchimp List', 'forge-mailchimp-form'),
+                'hint' => i('Choose a Subscriber List from your Accounts Lists', 'forge-mailchimp-form'),
+                "callable" => true,
+                "values" => array($this, 'getMailchimpListOptionValues')
+            ), Settings::get($this->settings_field_default_list)), $this->settings_field_default_list, 'right');            
+        }
+    }
+
+    public function getMailchimpListOptionValues() {
+        $mailchimp = new MailchimpAPI(Settings::get('forge_mailchimp_api_key'));
+        return array_merge(array('0' => i('Choose one', 'forge-mailchimp-form')), $mailchimp->getLists());
     }
 
 }
