@@ -6,6 +6,7 @@ use \Forge\Core\Abstracts\Module;
 use \Forge\Core\App\API;
 use \Forge\Core\App\App;
 use \Forge\Core\Classes\Fields;
+use \Forge\Core\Classes\Utils;
 use \Forge\Core\Classes\Settings;
 
 
@@ -70,6 +71,16 @@ class ForgeMailchimp extends Module {
     }
 
     private function registerFields() {
+        /**
+        due to the mailchimp API this is slow...
+        so we want this only to load on the correspondign page:
+        /manage/settings
+        **/
+        $uriComponents = Utils::getUriComponents();
+        if(! in_array("manage", $uriComponents) && ! in_array("settings", $uriComponents)) {
+            return;
+        }
+        
         $this->settings->registerField(
             Fields::text(array(
             'key' => $this->settings_field_api_key,
